@@ -4,4 +4,3 @@ build.properties
 *.xml
 build/jars/WPILib.jar
 *.jar
-*.project

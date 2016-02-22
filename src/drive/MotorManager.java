@@ -42,7 +42,7 @@ public class MotorManager
 		leftMotorFront = new CANTalon(13);//blaze it
 		leftMotorFront.set(0);
 		
-		leftMotorBack = new CANTalon(14);//blaze it
+		leftMotorBack = new CANTalon(12);//blaze it
 		leftMotorBack.set(0);
 		
 		rightMotorFront = new CANTalon(1);//leet
@@ -68,7 +68,7 @@ public class MotorManager
 		rightTake = new CANTalon(6);//over 9000
 		rightTake.set(0);
 		
-		captainHook = new CANTalon(12);//What is a pirate's favorite letter?
+		captainHook = new CANTalon(14);//What is a pirate's favorite letter?
 		captainHook.set(0);			  //"It's p because without it he'd be irate" 
 																//-Wang 2016
 		
