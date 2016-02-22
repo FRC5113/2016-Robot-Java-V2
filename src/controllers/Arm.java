@@ -14,11 +14,14 @@ public class Arm
 	private double tiltValueJoint;
 	private double hookMove;
 	
+	public double testValueDouble;
 	
 	public void init() 
 	{
 		minAngleBase = new DigitalInput(8);//fake
 		maxAngleBase = new DigitalInput(9);//fake
+		
+		testValueDouble = .5;
 		
 	}
 
@@ -48,14 +51,17 @@ public class Arm
 	
 	public void moveHook(MotorManager dr, JoystickController monitor)
 	{
-		if(monitor.getHookDrop())
-			hookMove = -.5;
-		else if(monitor.getHookLift())
-				hookMove = .5;
-		else
-			hookMove = 0;
+		testValue = monitor.testValue(testValueDouble, .05);
+		SmartDashboard.putNumber("Hook Move Value:", testValueDouble);
 		
-		dr.moveHook(hookMove);
+		if(monitor.getHookDrop())
+			testValueDouble = -testValue;
+		else if(monitor.getHookLift())
+			testValueDouble = testValue;
+		else
+			testValueDouble = 0;
+		
+		dr.moveHook(testValueDouble);
 	}
 	
 	//Don't put this in until we get the actual robot

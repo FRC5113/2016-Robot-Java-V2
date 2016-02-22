@@ -128,6 +128,7 @@ public class Robot extends IterativeRobot
 		//SmartDashboard.putNumber("Gyro XY", sensors.getGyroXYAngle());
 		//SmartDashboard.putNumber("Gyro Z", sensors.getGyroZAngle());
 		//SmartDashboard.putNumber("Distance", sensors.getSonicRangeInches());
+		
 
     }
     
