@@ -57,18 +57,27 @@ public class Shooter
     	//pid = new PID();
     	//pid.init();
     	
-    	driverSpinWheelsSpeed = .5;
+    	driverSpinWheelsSpeed = .8;
 	}
 	
 	//It requires dr for motor access, monitor for stick access and sensors for sensor access (Especially for auto-shoot)
 	public void update(MotorManager dr, JoystickController monitor, SensorManager sensors, ShooterSubSystem SSS)
 	{
-		manualTilt(dr, monitor);
-		manualWheels(dr, monitor);
+		
+		
+		if(monitor.getEStop())
+		{
+			if(!autoShootToggle)
+				manualDriverShootAndAim(dr, monitor);
+		}
+		else
+		{
+			manualTilt(dr, monitor);
+			manualWheels(dr, monitor);
+		}
 		
 		//Shooter Plan B just in case everything goes 
-		if(!autoShootToggle)
-			manualDriverShootAndAim(dr, monitor);
+		
 		
 		//Calling autoshoot
         // if "A" is pressed & it has been at least 5 seconds since last time "A" has been pressed
@@ -96,7 +105,7 @@ public class Shooter
 		{
 			case 1:
 				
-				if(monitor.getServo())//RIP rumble 2016
+				if(monitor.getServo() || monitor.getDriverServoShoot())//RIP rumble 2016
 				{
 					pusher.setAngle(180);
 					servoDir = 2;
@@ -123,14 +132,14 @@ public class Shooter
 	{
 		if(monitor.getIntake())
 		{
-			dr.spinShooterWheels(-1, 1);
+			dr.spinShooterWheels(-.8, .8);
 		}
 		else if(monitor.getShootLow())
 		{
-			dr.spinShooterWheels(1,  -1);
+			dr.spinShooterWheels(.5,  -.5);
 		}
-		//else
-			//dr.spinShooterWheels(0, 0);
+		else
+			dr.spinShooterWheels(0, 0);
 	}
 	
 	public void autoShoot(ShooterSubSystem SSS, SensorManager sensors, MotorManager dr, PID pid)//Now is the time to do this. 
@@ -169,27 +178,28 @@ public class Shooter
 	
 	public void manualDriverShootAndAim(MotorManager dr, JoystickController monitor)
 	{
-		if(monitor.getDriverSpeedWheelsUp())
-		{
-			driverSpinWheelsSpeed += .1;
-		}
-		else if(monitor.getDriverSpeedWheelsDown())
-			{
-				driverSpinWheelsSpeed -= .1;
-			}
+
+		/*
+		driverSpinWheelsSpeed = monitor.getDriverSpeedWheels();
+		
+		if(driverSpinWheelsSpeed > .8)
+			driverSpinWheelsSpeed = .8;
+		*/
 		
 		if(monitor.getDriverTiltUp())
 		{
-			dr.tiltShoot(.5);
+			dr.tiltShoot(.35);
 		}
 		else if(monitor.getDriverTiltDown())
 			{
-				dr.tiltShoot(-.5);
+				dr.tiltShoot(-.35);
 			}
+		else
+			dr.tiltShoot(0);
 		
 		if(monitor.getDriverShoot())
 		{
-			dr.spinShooterWheels(driverSpinWheelsSpeed, driverSpinWheelsSpeed);
+			dr.spinShooterWheels(-driverSpinWheelsSpeed, driverSpinWheelsSpeed);
 		}
 		else
 		{

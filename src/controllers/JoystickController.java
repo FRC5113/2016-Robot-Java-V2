@@ -37,13 +37,11 @@ public class JoystickController extends DriveController
 	private JoystickButton testSubBig;
 	
 	//Shooter Plan B
-	private JoystickButton driverShoot;
+	private JoystickButton driverSpeedWheelsUp;
 	private JoystickButton driverTiltUp;
 	private JoystickButton driverTiltDown;
-	private JoystickButton driverWheelSpeedUpR;
-	private JoystickButton driverWheelSpeedDownR;
-	private JoystickButton driverWheelSpeedUpL;
 	private JoystickButton driverWheelSpeedDownL;
+	private JoystickButton driverServoShoot;
 	
 	//private int leftHandedness = 0;
 	
@@ -73,7 +71,7 @@ public class JoystickController extends DriveController
 //		tiltDownShoot = new JoystickButton(xboxController, 2);
 //		tiltUpShoot = new JoystickButton(xboxController, 3);
 		
-		reverseControl = new JoystickButton(rightStick, xboxY);
+		reverseControl = new JoystickButton(rightStick, 2);
 		
 		gyroResetRight = new JoystickButton(rightStick, 11);
 		gyroResetLeft = new JoystickButton(leftStick, 11);
@@ -83,13 +81,10 @@ public class JoystickController extends DriveController
 		testSubBig = new JoystickButton(rightStick,10);
 		
 		//shooter plan B
-		 driverShoot = new JoystickButton(rightStick,2);
-		 driverTiltUp = new JoystickButton(rightStick,1);
-		 driverTiltDown = new JoystickButton(leftStick,1);
-		 driverWheelSpeedUpR = new JoystickButton(rightStick,3);
-		 driverWheelSpeedUpL = new JoystickButton(leftStick,3);
-		 driverWheelSpeedDownL = new JoystickButton(leftStick,4);
-		 driverWheelSpeedDownR = new JoystickButton(rightStick,4);
+		 driverTiltUp = new JoystickButton(rightStick,3);
+		 driverTiltDown = new JoystickButton(leftStick,4);
+		 driverSpeedWheelsUp = new JoystickButton(leftStick,1);
+		 driverServoShoot = new JoystickButton(rightStick, 1);
 		
 		
 		servo = new JoystickButton(xboxController, xboxY);
@@ -126,6 +121,12 @@ public class JoystickController extends DriveController
 	{
 		double leftYAxis = leftStick.getY();
 		double rightYAxis = rightStick.getY();
+		
+		if(Math.abs(leftYAxis) < 0.05)
+			leftYAxis = 0;
+		
+		if(Math.abs(rightYAxis) < 0.05)
+			rightYAxis = 0;
 		
 		if(leftYAxis > 0.99)
 			leftYAxis = 0.99;
@@ -213,7 +214,7 @@ public class JoystickController extends DriveController
 	
 	public boolean getDriverShoot()
 	{
-		return driverShoot.get();
+		return driverSpeedWheelsUp.get();
 	}
 	
 	public boolean getDriverTiltUp()
@@ -226,14 +227,14 @@ public class JoystickController extends DriveController
 		return driverTiltDown.get();
 	}
 	
-	public boolean getDriverSpeedWheelsUp()
+	public double getDriverSpeedWheels()
 	{
-		return driverWheelSpeedUpL.get() || driverWheelSpeedUpR.get();
+		return leftStick.getRawAxis(3);
 	}
 	
-	public boolean getDriverSpeedWheelsDown()
+	public boolean getDriverServoShoot()
 	{
-		return driverWheelSpeedDownR.get() || driverWheelSpeedDownL.get();
+		return driverServoShoot.get();
 	}
 	
 	public boolean getGyroReset()
@@ -255,5 +256,10 @@ public class JoystickController extends DriveController
 				newValue -= (incrementValue * 10);
 		
 		return newValue;
+	}
+	
+	public boolean getEStop()
+	{
+		return emergencyStop.get() || emergencyStop2.get();
 	}
 }

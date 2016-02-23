@@ -61,6 +61,8 @@ public class Robot extends IterativeRobot
         sensors = new SensorManager();
         sensors.init();
         SSS = new ShooterSubSystem();
+        
+        motorManagers.moveHook(0);
     }
     
 	/**

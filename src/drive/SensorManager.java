@@ -42,7 +42,7 @@ public class SensorManager
 		//gyroscope
 
 		
-		/*gyroXY = new AnalogGyro(0);
+		gyroXY = new AnalogGyro(0);
 		gyroXY.initGyro();
 		System.out.println("Gyro XY is now initiated\t" + gyroXY.getAngle());
 
@@ -52,7 +52,7 @@ public class SensorManager
 		
 		gyroXY.calibrate();
 		gyroZ.calibrate();
-		System.out.println("The Gyro's are now calibrated.");*/
+		System.out.println("The Gyro's are now calibrated.");
 				 
 		//encoder = new EncoderManager(0,1,7,343,360,1);
 

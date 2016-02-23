@@ -3,6 +3,7 @@ package controllers;
 import drive.MotorManager;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm
 {
@@ -21,7 +22,7 @@ public class Arm
 		minAngleBase = new DigitalInput(8);//fake
 		maxAngleBase = new DigitalInput(9);//fake
 		
-		testValueDouble = .5;
+		testValueDouble = .1;
 		
 	}
 
@@ -38,6 +39,9 @@ public class Arm
 	public void tiltBase(MotorManager dr, JoystickController monitor)
 	{
 		tiltValueBase = monitor.getTiltArm();
+		
+		if(Math.abs(tiltValueBase) < 0.05)
+			tiltValueBase = 0;
 	
 		dr.tiltArm(tiltValueBase);
 	}
@@ -46,22 +50,20 @@ public class Arm
 	{
 		tiltValueJoint = monitor.getTiltJoint();
 		
-		dr.tiltJoint(tiltValueJoint);
+		if(Math.abs(tiltValueJoint) < 0.05)
+			tiltValueJoint = 0;
+		
+		dr.tiltJoint(-tiltValueJoint);
 	}
 	
 	public void moveHook(MotorManager dr, JoystickController monitor)
-	{
-		testValue = monitor.testValue(testValueDouble, .05);
-		SmartDashboard.putNumber("Hook Move Value:", testValueDouble);
-		
+	{	
 		if(monitor.getHookDrop())
-			testValueDouble = -testValue;
+			dr.moveHook(-0.9);
 		else if(monitor.getHookLift())
-			testValueDouble = testValue;
+			dr.moveHook(0.9);
 		else
-			testValueDouble = 0;
-		
-		dr.moveHook(testValueDouble);
+			dr.moveHook(0);
 	}
 	
 	//Don't put this in until we get the actual robot

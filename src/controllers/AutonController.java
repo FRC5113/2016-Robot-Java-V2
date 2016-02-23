@@ -9,7 +9,7 @@ import auton.Moat;
 import auton.Ramparts;
 import auton.RoughTerrain;
 
-public class AutonController extends DriveController
+public class AutonController
 {	
 	private int caseSelector = 1;
 	private double leftMotor, rightMotor;
@@ -23,7 +23,7 @@ public class AutonController extends DriveController
 	ChivalDeFrise chivalDeFrise;
 	
 
-	@Override
+	
 	public void init() 
 	{
 		moat = new Moat();
@@ -33,11 +33,7 @@ public class AutonController extends DriveController
 		chivalDeFrise = new ChivalDeFrise();
 	}
 
-	@Override
-	public void update(MotorManager dr)
-	{
-		
-	}
+
 	public void update(MotorManager dr, SensorManager sensors)
 	{
 		if(caseSelector == 1)
