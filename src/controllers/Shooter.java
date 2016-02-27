@@ -27,6 +27,7 @@ public class Shooter
 	
 	private boolean autoShootToggle;
 	private double debounce;
+	private double debounce2;
 	
 	private double distance;
 	private double index;
@@ -38,6 +39,8 @@ public class Shooter
 	private double tiltSpeed;
 	
 	private double driverSpinWheelsSpeed;
+	private double shooterMultiplier;
+	private double tiltMultiplier;
 	
 	//instantiate objects with obviously fake ports
 	//Done
@@ -53,11 +56,13 @@ public class Shooter
 		
     	autoShootToggle = false; 
     	debounce = -5000;
+    	debounce2 = -2000;
     	
     	//pid = new PID();
     	//pid.init();
     	
     	driverSpinWheelsSpeed = .8;
+    	shooterMultiplier = 1;
 	}
 	
 	//It requires dr for motor access, monitor for stick access and sensors for sensor access (Especially for auto-shoot)
@@ -80,15 +85,31 @@ public class Shooter
 		
 		//Calling autoshoot
         // if "A" is pressed & it has been at least 5 seconds since last time "A" has been pressed
-        /*if(monitor.getActivateAutoShoot() && System.currentTimeMillis() - debounce > 5000) 
+        if(monitor.getActivateAutoShoot() && System.currentTimeMillis() - debounce > 5000) 
         {
         	debounce = System.currentTimeMillis();
         	autoShootToggle = !autoShootToggle;
         }
         
         if(autoShootToggle)
-        	autoShoot(SSS, sensors, dr);
-		*/
+        {
+        	if(monitor.getTiltUpShoot() > 0.5 && System.currentTimeMillis() - debounce2 > 2000)
+        	{
+        		debounce2 = System.currentTimeMillis();
+        		shooterMultiplier += .1;
+        	}
+        	else if(monitor.getTiltDownShoot() > 0.5 && System.currentTimeMillis() - debounce2 > 2000)
+        	{
+        		debounce2 = System.currentTimeMillis();
+        		shooterMultiplier -= .1;
+        	}
+        }
+        
+        
+        
+        if(autoShootToggle)
+        	autoShoot(SSS, sensors, dr, pid);
+		
 		
 		// speed = pid.UsePID(sensors, 750);
 		//System.out.println("PID: " + speed);
@@ -218,7 +239,7 @@ public class Shooter
 		whereToShoot = SSS.getAimParmFromArray(distance);
 		velocity = whereToShoot.getWheelRotationVelocity();
 		
-		pulsesPerSecond = (7 * velocity) / (6.28318 * 0.167);
+		pulsesPerSecond = (7 * velocity * shooterMultiplier) / (6.28318 * 0.167);
 		
 		return pulsesPerSecond;
 	}
