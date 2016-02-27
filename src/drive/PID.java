@@ -59,10 +59,10 @@ public class PID
 		PIDintegral = PIDintegral + (Ecurr * (dt));
 		//Derivative = ((Ecurr- PIDError) / dt);
 		output = (PIDKp * Ecurr) + (PIDKi * PIDintegral) + (PIDKd * Derivative);
-		System.out.println("PIDKp: " + PIDKp);
-		System.out.println("Ecurr" + Ecurr);
-		System.out.println("output" + output);
-		System.out.println("dt: " + dt);
+		//System.out.println("PIDKp: " + PIDKp);
+		//System.out.println("Ecurr" + Ecurr);
+		//System.out.println("output" + output);
+		//System.out.println("dt: " + dt);
 		
 		PIDError = Ecurr;
 		PIDTime = Tcurr;
@@ -73,16 +73,63 @@ public class PID
 		if (output < -0.01)
 			output = -0.01;*/
 		
-		System.out.println("ayy lmao");
-		System.out.println("");
+		//System.out.println("ayy lmao");
+		//System.out.println("");
 		
 		
 		PIDI = PIDI + output;
 		
-		System.out.println("Output Total: " + PIDI);
+		//System.out.println("Output Total: " + PIDI);
 		
 		if(PIDI > .99)
 			PIDI = .99;
+		
+		}
+		
+		return PIDI;
+	}
+	
+	public double UsePIDAngle(SensorManager sensors, double desiredSpeed)
+	{
+		Scurr = sensors.encoder.getEncoderAngle();
+		//System.out.println("encoder rate: " + Scurr);
+		Tcurr= System.currentTimeMillis();
+		
+		if (Tcurr - PIDTime > 50)
+		{
+					
+		Ecurr = desiredSpeed - PIDSpeed;
+		dt = (double)(Tcurr - PIDTime) / 1000;
+		//PIDintegral = PIDintegral + (Ecurr * (dt));
+		//Derivative = ((Ecurr- PIDError) / dt);
+		output = (PIDKp * Ecurr) + (PIDKi * PIDintegral) + (PIDKd * Derivative);
+		//System.out.println("PIDKp: " + PIDKp);
+		//System.out.println("Ecurr" + Ecurr);
+		//System.out.println("output" + output);
+		//System.out.println("dt: " + dt);
+		
+		PIDError = Ecurr;
+		PIDTime = Tcurr;
+		PIDSpeed = Scurr;
+			
+		/*if (output > 0.01)
+			output = 0.01;
+		if (output < -0.01)
+			output = -0.01;*/
+		
+		//System.out.println("ayy lmao");
+		//System.out.println("");
+		
+		
+		PIDI = PIDI + output;
+		
+		//System.out.println("Output Total: " + PIDI);
+		
+		if(PIDI > .99)
+			PIDI = .99;
+		
+		if(PIDI < -.99)
+			PIDI = -.99;
 		
 		}
 		

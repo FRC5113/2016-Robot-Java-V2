@@ -6,7 +6,7 @@ public class EncoderManager
 {
 	
 	private Encoder encoder;
-	
+	//SRXMagEncoder is the shooter wheels encoder
 	private final double ENCODER_PULSES_PER_REV; //7
 	private final double MOTOR_TO_GEAR_RATIO;//343
 	private final double DEGREES_PER_GEAR_REV;//360
@@ -15,6 +15,7 @@ public class EncoderManager
 	
 	private double encoderAngle;
 	
+	PID pid;
 	//Shooter wheels are 2 inch radius
 	
 	public EncoderManager(int portOne, int portTwo, double pulsesPerRev, double motorGearRatio, 
@@ -30,6 +31,7 @@ public class EncoderManager
 				(DEGREES_PER_GEAR_REV/MOTOR_REVS_PER_ENCODER_REV);
 		
 		encoder = new Encoder(portOne, portTwo);
+		pid = new PID();
 	}
 	
 	public int getEncoderValues()
@@ -81,9 +83,11 @@ public class EncoderManager
 		return encoderAngle;
 	}
 	
-	public double setShooterAngle(double requestedAngle)
+	public double setShooterAngle(double requestedAngle, SensorManager sensors)
 	{
-		if(requestedAngle > getEncoderAngle())
+		 return pid.UsePIDAngle(sensors, requestedAngle);
+		
+		/*if(requestedAngle > getEncoderAngle())
 		 {
 			 return -0.5;			//plz test numbers
 		 }
@@ -94,6 +98,6 @@ public class EncoderManager
 		else
 		{
 			return 0;
-		}
+		}*/
 	}
 }

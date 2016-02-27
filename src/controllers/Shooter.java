@@ -75,7 +75,6 @@ public class Shooter
 			manualTilt(dr, monitor);
 			manualWheels(dr, monitor);
 		}
-		
 		//Shooter Plan B just in case everything goes 
 		
 		
@@ -148,7 +147,7 @@ public class Shooter
 		whereToShoot = SSS.getAimParmFromArray(distance);
 		
 		angle = whereToShoot.getCarriageTiltAngle();
-		tiltSpeed = sensors.encoder.setShooterAngle(angle);
+		tiltSpeed = sensors.encoder.setShooterAngle(angle, sensors);
 		
 		dr.tiltShoot(tiltSpeed);
 		dr.spinShooterWheels(pid.UsePID(sensors, convertShooterSpeed(SSS, sensors)), 
