@@ -242,6 +242,11 @@ public class JoystickController extends DriveController
 		return gyroResetLeft.get() || gyroResetRight.get();
 	}
 	
+	public boolean getAnyTestValue()
+	{
+		return (testAddBig.get() || testAddSmall.get() || testSubBig.get() || testSubSmall.get());
+	}
+	
 	public double testValue(double originalValue, double incrementValue)
 	{
 		double newValue = originalValue;

@@ -1,6 +1,7 @@
 package drive;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class EncoderManager 
 {
@@ -85,19 +86,24 @@ public class EncoderManager
 	
 	public double setShooterAngle(double requestedAngle, SensorManager sensors)
 	{
-		 return pid.UsePIDAngle(sensors, requestedAngle);
-		
-		/*if(requestedAngle > getEncoderAngle())
-		 {
-			 return -0.5;			//plz test numbers
-		 }
-		else if(requestedAngle < getEncoderAngle())
-		 {
-			 return 0.5;			 //plz test numbers
-		 }
+		 //return pid.UsePIDAngle(sensors, requestedAngle);
+		SmartDashboard.putNumber("Sensor Angle", sensors.encoder.getEncoderAngle());
+		if(Math.abs(requestedAngle - sensors.encoder.getEncoderAngle()) > 5)
+		{
+			if(requestedAngle > sensors.encoder.getEncoderAngle())
+			{
+				return 0.5;			//plz test numbers
+		 	}
+			else if(requestedAngle < sensors.encoder.getEncoderAngle())
+		 	{
+				return -0.5;			 //plz test numbers
+		 	}
+		}
 		else
 		{
 			return 0;
-		}*/
+		}
+		
+		return 0;
 	}
 }

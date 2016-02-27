@@ -178,6 +178,11 @@ public class ShooterSubSystem
 	 */
 	public AimParameters getAimParmFromArray(Double requestedDistance)
 	{
+		if(requestedDistance > 20.0)
+			requestedDistance = 20.0;
+		
+		if(requestedDistance < 2.0)
+			requestedDistance = 2.0;
 
 		Double index = Math.floor((requestedDistance - MIN_DIST)
 				* DIVS_PER_FOOT);

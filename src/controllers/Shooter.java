@@ -5,6 +5,7 @@ import drive.PID;
 import drive.SensorManager;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter
 {
@@ -28,6 +29,7 @@ public class Shooter
 	private boolean autoShootToggle;
 	private double debounce;
 	private double debounce2;
+	private double debounce3;
 	
 	private double distance;
 	private double index;
@@ -46,8 +48,8 @@ public class Shooter
 	//Done
 	public void init()
 	{
-		maxAngle = new DigitalInput(2);//fake
-		minAngle = new DigitalInput(3);//fake
+		//maxAngle = new DigitalInput(2);//fake
+		minAngle = new DigitalInput(2);//fake
 		
 		pusher = new Servo(0);//real
 		pusher.setAngle(0);
@@ -63,6 +65,9 @@ public class Shooter
     	
     	driverSpinWheelsSpeed = .8;
     	shooterMultiplier = 1;
+    	
+    	distance = 15;
+    	
 	}
 	
 	//It requires dr for motor access, monitor for stick access and sensors for sensor access (Especially for auto-shoot)
@@ -108,7 +113,7 @@ public class Shooter
         
         
         if(autoShootToggle)
-        	autoShoot(SSS, sensors, dr, pid);
+        	autoShoot(SSS, sensors, dr, pid, monitor);
 		
 		
 		// speed = pid.UsePID(sensors, 750);
@@ -162,17 +167,44 @@ public class Shooter
 			dr.spinShooterWheels(0, 0);
 	}
 	
-	public void autoShoot(ShooterSubSystem SSS, SensorManager sensors, MotorManager dr, PID pid)//Now is the time to do this. 
+	public void autoShoot(ShooterSubSystem SSS, SensorManager sensors, MotorManager dr, PID pid, JoystickController driverStick)//Now is the time to do this. 
 	{
-		distance = 15;//sensors.getSonicRangeInches();
+		if(driverStick.getAnyTestValue() && System.currentTimeMillis() - debounce3 > 1000) 
+        {
+        	debounce3 = System.currentTimeMillis();
+        	distance = driverStick.testValue(distance, 1);
+        	
+        }
+		
+		SmartDashboard.putNumber("Distance", distance);
+		//distance = sensors.getSonicRangeInches();
 		whereToShoot = SSS.getAimParmFromArray(distance);
 		
 		angle = whereToShoot.getCarriageTiltAngle();
 		tiltSpeed = sensors.encoder.setShooterAngle(angle, sensors);
+		//System.out.println("Tilt Speed: " + tiltSpeed);
+		SmartDashboard.putNumber("Tilt Speed", tiltSpeed);
+		
+		if(minAngle.get())
+		{
+			if(tiltSpeed > 0 )
+				tiltSpeed = 0;
+		}
 		
 		dr.tiltShoot(tiltSpeed);
-		dr.spinShooterWheels(pid.UsePID(sensors, convertShooterSpeed(SSS, sensors)), 
-				pid.UsePID(sensors, convertShooterSpeed(SSS, sensors))); //one will be negative
+		
+		if(driverStick.getShootLow())
+		{
+			if(driverStick.getTiltUpShoot() > 0.05)
+        	{
+				dr.spinShooterWheels(driverStick.getTiltUpShoot(),  -driverStick.getTiltUpShoot());
+				//System.out.println("Wheel Speed: " + driverStick.getTiltUpShoot());
+				SmartDashboard.putNumber("Wheel Speed", driverStick.getTiltUpShoot());
+        	}
+        		
+		}
+		//dr.spinShooterWheels(pid.UsePID(sensors, convertShooterSpeed(SSS, sensors)), 
+				//pid.UsePID(sensors, convertShooterSpeed(SSS, sensors))); //one will be negative
 	}
 	
 	//We assume that to tilt down we have a negative value and positive to tilt up
@@ -191,6 +223,12 @@ public class Shooter
 		else
 		{
 			tiltValue = 0;
+		}
+		
+		if(minAngle.get())
+		{
+			if(tiltValue > 0 )
+				tiltValue = 0;
 		}
 		
 		dr.tiltShoot(tiltValue);

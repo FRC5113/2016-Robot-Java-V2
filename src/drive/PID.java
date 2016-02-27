@@ -1,5 +1,7 @@
 package drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class PID
 {
 	
@@ -102,6 +104,8 @@ public class PID
 	public double UsePIDAngle(SensorManager sensors, double desiredAngle)
 	{
 		Scurr = sensors.encoder.getEncoderAngle();
+		SmartDashboard.putNumber("Desired Angle", desiredAngle);
+		SmartDashboard.putNumber("Actual Angle", Scurr);
 		//System.out.println("encoder rate: " + Scurr);
 		Tcurr= System.currentTimeMillis();
 		
