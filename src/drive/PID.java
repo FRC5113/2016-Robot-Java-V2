@@ -4,6 +4,7 @@ public class PID
 {
 	
 	double PIDSpeed;
+	double PIDAngle;
 	long PIDTime;
 	double PIDError;
     double PIDI;
@@ -22,6 +23,10 @@ public class PID
     double PIDCurrent;
     double Derivative;
     double SpeedCurrent;
+    
+    double deltaAngle;
+    double maxSpeed;
+    double PIDKpAngle;
 
     
     public void init()
@@ -42,7 +47,12 @@ public class PID
 	    PIDI = 0;
 	    PIDintegral = 0;
 	    PIDSpeed = 0;
+	    PIDAngle = 0;
 	    PIDKi = PIDKp / 200;
+	    
+	    deltaAngle = 5;
+	    maxSpeed = .5;
+	    PIDKpAngle  = maxSpeed / deltaAngle;
     }
     
 	public double UsePID(SensorManager sensors, double desiredSpeed)
@@ -89,7 +99,7 @@ public class PID
 		return PIDI;
 	}
 	
-	public double UsePIDAngle(SensorManager sensors, double desiredSpeed)
+	public double UsePIDAngle(SensorManager sensors, double desiredAngle)
 	{
 		Scurr = sensors.encoder.getEncoderAngle();
 		//System.out.println("encoder rate: " + Scurr);
@@ -98,11 +108,11 @@ public class PID
 		if (Tcurr - PIDTime > 50)
 		{
 					
-		Ecurr = desiredSpeed - PIDSpeed;
+		Ecurr = desiredAngle - PIDAngle;
 		dt = (double)(Tcurr - PIDTime) / 1000;
 		//PIDintegral = PIDintegral + (Ecurr * (dt));
 		//Derivative = ((Ecurr- PIDError) / dt);
-		output = (PIDKp * Ecurr) + (PIDKi * PIDintegral) + (PIDKd * Derivative);
+		output = (PIDKpAngle * Ecurr) + (PIDKi * PIDintegral) + (PIDKd * Derivative);
 		//System.out.println("PIDKp: " + PIDKp);
 		//System.out.println("Ecurr" + Ecurr);
 		//System.out.println("output" + output);
@@ -110,7 +120,7 @@ public class PID
 		
 		PIDError = Ecurr;
 		PIDTime = Tcurr;
-		PIDSpeed = Scurr;
+		PIDAngle = Scurr;
 			
 		/*if (output > 0.01)
 			output = 0.01;
@@ -125,11 +135,11 @@ public class PID
 		
 		//System.out.println("Output Total: " + PIDI);
 		
-		if(PIDI > .99)
-			PIDI = .99;
+		if(PIDI > maxSpeed)
+			PIDI = maxSpeed;
 		
-		if(PIDI < -.99)
-			PIDI = -.99;
+		if(PIDI < -maxSpeed)
+			PIDI = -maxSpeed;
 		
 		}
 		

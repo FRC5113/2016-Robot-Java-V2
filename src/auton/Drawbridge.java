@@ -125,7 +125,7 @@ public class Drawbridge extends DefenseFrame									// it's a boi
 				dr.tiltJoint(0);
 			}
 			
-			encoder.setShooterAngle(shooterangle);
+			encoder.setShooterAngle(shooterangle, sensors);
 			
 			if (joy.getTiltArm() == 180-basedegrees2 && joy.getTiltJoint() == 180-jointdegrees2 && encoder.getEncoderAngle() == shooterangle)
 			{
@@ -144,7 +144,7 @@ public class Drawbridge extends DefenseFrame									// it's a boi
 			}
 			
 		case 6: 
-			encoder.setShooterAngle(180-shooterangle);
+			encoder.setShooterAngle(180-shooterangle, sensors);
 			if (sensors.getGyroZAngle() < -5 && encoder.getEncoderAngle()==180-shooterangle)
 			{
 				caseSelector = 7;

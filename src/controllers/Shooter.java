@@ -164,7 +164,7 @@ public class Shooter
 	
 	public void autoShoot(ShooterSubSystem SSS, SensorManager sensors, MotorManager dr, PID pid)//Now is the time to do this. 
 	{
-		distance = sensors.getSonicRangeInches();
+		distance = 15;//sensors.getSonicRangeInches();
 		whereToShoot = SSS.getAimParmFromArray(distance);
 		
 		angle = whereToShoot.getCarriageTiltAngle();
