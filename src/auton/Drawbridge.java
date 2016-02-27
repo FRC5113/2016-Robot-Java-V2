@@ -20,12 +20,12 @@ public class Drawbridge extends DefenseFrame									// it's a boi
 
 	private double time;
 	
-	MotorManager dr;
 	JoystickController joy;
 	EncoderManager encoder;
 	
-	@Override
-	public void update(SensorManager sensors)
+	
+	//This is not how you do it... We will have to fix this one...
+	public void update(SensorManager sensors, MotorManager dr)
 	{
 		if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
 			caseSelector = 1;

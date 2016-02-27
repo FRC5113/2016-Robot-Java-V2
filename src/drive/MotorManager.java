@@ -34,6 +34,7 @@ public class MotorManager
 	
 	//The hook
 	private CANTalon captainHook;
+	private CANTalon ticTocCroc;
 	
 	RobotDrive roboDrive;
 	
@@ -62,8 +63,6 @@ public class MotorManager
 		
 		leftTake = new CANTalon(7);//not quite 9000
 		leftTake.set(0);
-		//leftTake.enableBrakeMode(false);
-		//leftTake.enable();
 		
 		rightTake = new CANTalon(6);//over 9000
 		rightTake.set(0);
@@ -71,6 +70,9 @@ public class MotorManager
 		captainHook = new CANTalon(14);//What is a pirate's favorite letter?
 		captainHook.set(0);			  //"It's p because without it he'd be irate" 
 																//-Wang 2016
+		
+		ticTocCroc = new CANTalon(3);//He's coming for Hook...
+		ticTocCroc.set(0);
 		
 		roboDrive = new RobotDrive(rightMotorBack, leftMotorBack);
 	}
@@ -93,8 +95,8 @@ public class MotorManager
 		
 		//rightTake.set(.6);
 		//tiltMotorShoot.set(rightPower);
-		System.out.println("Left Power: " + leftPower);
-		System.out.println("Right Power: " + rightPower);
+		//System.out.println("Left Power: " + leftPower);
+		//System.out.println("Right Power: " + rightPower);
 	}
 	
 	public void tiltShoot(double tiltValue)
@@ -122,6 +124,7 @@ public class MotorManager
 	public void moveHook(double speed)
 	{
 		captainHook.set(speed);
+		ticTocCroc.set(speed);
 	}
 	
 	

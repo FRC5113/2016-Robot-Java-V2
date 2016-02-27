@@ -1,5 +1,6 @@
 package auton;
 
+import drive.MotorManager;
 import drive.SensorManager;
 
 public class Ramparts extends DefenseFrame
@@ -10,7 +11,7 @@ public class Ramparts extends DefenseFrame
 	private double speed2 = 0.3;
 	private double time;
 	
-	public void update(SensorManager sensors)
+	public void update(SensorManager sensors, MotorManager dr)
 	{
 		if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
 			caseSelector = 1;

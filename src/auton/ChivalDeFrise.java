@@ -13,8 +13,8 @@ public class ChivalDeFrise extends DefenseFrame
 	private double time;
 	
 	
-	@Override
-	public void update(SensorManager sensors)
+	
+	public void update(SensorManager sensors, MotorManager dr)
 	{
 		if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
 			caseSelector = 1;
@@ -22,7 +22,7 @@ public class ChivalDeFrise extends DefenseFrame
 		switch(caseSelector)
 		{
 		case 1: //Approach the defense
-			controller.forward(speed1);
+			forward(speed1);
 			
 			if(sensors.getGyroZAngle() > 5)
 			{
@@ -33,23 +33,28 @@ public class ChivalDeFrise extends DefenseFrame
 			break;
 			
 		case 2: // Drive over the defense
-			controller.forward(speed2);
+			forward(speed2);
 				//Lower shooting mechanism here
-				controller.shootswing(speed3);
+			shootswing(speed3);
 			
 			if(sensors.getGyroZAngle() <= 5 && System.currentTimeMillis() - time >= 1500)
 				//Raise shooting mechanism here
-				controller.shootswing(-speed3);
+				shootswing(-speed3);
 			
 				caseSelector = 3;
 			
 			break;
 			
 		case 3: // Stop
-			controller.stop();
+			stop();
 			System.out.println("Done!");
 			break;
 		}
+		
+		
+		dr.tankDrive(-leftMotor, -rightMotor);
+		dr.tiltArm(tiltMotorArm);
+		dr.tiltShoot(tiltMotorShoot);
 		
 	}
 }

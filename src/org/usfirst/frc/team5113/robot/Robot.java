@@ -2,6 +2,7 @@
 package org.usfirst.frc.team5113.robot;
 
 import controllers.Arm;
+import controllers.AutonController;
 import controllers.JoystickController;
 import controllers.Shooter;
 import controllers.ShooterSubSystem;
@@ -37,6 +38,7 @@ public class Robot extends IterativeRobot
 	private Shooter shoot;
 	private Arm arm;
 	private ShooterSubSystem SSS;
+	private AutonController Auton;
 	
 
 
@@ -61,6 +63,8 @@ public class Robot extends IterativeRobot
         sensors = new SensorManager();
         sensors.init();
         SSS = new ShooterSubSystem();
+        Auton = new AutonController();
+        
         
         motorManagers.moveHook(0);
     }
@@ -77,6 +81,7 @@ public class Robot extends IterativeRobot
     public void autonomousInit() 
     {
     	sensors.encoder.resetEncoder();
+    	Auton.init();
     }
 
     /**
@@ -84,7 +89,8 @@ public class Robot extends IterativeRobot
      */
     public void autonomousPeriodic() 
     {
-    	
+    	sensors.update();
+    	Auton.update(motorManagers, sensors);
     }
 
     public void teleopInit()
@@ -102,8 +108,7 @@ public class Robot extends IterativeRobot
         sensors.update();
         shoot.update(motorManagers, controller, sensors, SSS);
         arm.update(motorManagers, controller);
-        //Test comment
-        //Test comment 2
+        
         
 
         
@@ -113,12 +118,16 @@ public class Robot extends IterativeRobot
 		//System.out.println("Encoder Rate of Rotation: " + sensors.getEncoderRate());
 		//System.out.println("Encoder Distance: " + sensors.getEncoderDistance());
 		//System.out.println("Degrees per Second: " + sensors.getEncoderAngularSpeed());
+        System.out.println("GyroZ Angle: " + sensors.getGyroZAngle());
 		
 		//System.out.println("StringPot: " + sensors.getStringPot());
 		//System.out.println("Ultrasonic Range Finder (Inches): " + sensors.getSonicRangeInches());
 		//System.out.println("Servo: " + shoot.pusher.getAngle());
-		
-		sensors.resetGyroAngles(controller);
+        if(controller.getGyroReset())
+		 {
+    		sensors.resetGyroAngles();
+		 }
+
 		
 		//System.out.println("Gyro XY: " + sensors.getGyroXYAngle());
 		//System.out.println("Gyro Z: " + sensors.getGyroZAngle()); 

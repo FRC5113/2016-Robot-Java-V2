@@ -42,15 +42,15 @@ public class SensorManager
 		//gyroscope
 
 		
-		gyroXY = new AnalogGyro(0);
-		gyroXY.initGyro();
-		System.out.println("Gyro XY is now initiated\t" + gyroXY.getAngle());
+		//gyroXY = new AnalogGyro(0);
+		//gyroXY.initGyro();
+		//System.out.println("Gyro XY is now initiated\t" + gyroXY.getAngle());
 
 		gyroZ = new AnalogGyro(1);
 		gyroZ.initGyro();
 		System.out.println("Gyro Z is now initiated\t" + gyroZ.getAngle());
 		
-		gyroXY.calibrate();
+		//gyroXY.calibrate();
 		gyroZ.calibrate();
 		System.out.println("The Gyro's are now calibrated.");
 				 
@@ -68,7 +68,7 @@ public class SensorManager
 	public void update()
 	{
 		//gyroXY.updateTable();
-		//gyroZ.updateTable();
+		gyroZ.updateTable();
 	}
 	
 	public double getGyroVoltage(AnalogGyro gyro)
@@ -76,11 +76,6 @@ public class SensorManager
 		// v = read the voltage from the gyro
 		//
 		return 5;
-	}
-	
-	public void resetGyroAngle()
-	{
-		
 	}
 
 	public double getStringPot()
@@ -107,14 +102,10 @@ public class SensorManager
 		 return gyroZ.getAngle();
 	 }
 	 
-	 public void resetGyroAngles(JoystickController joystick)
+	 public void resetGyroAngles()
 	 {
-		 if(joystick.getGyroReset())
-		 {
-		   gyroXY.reset();
+		   //gyroXY.reset();
 		   gyroZ.reset();
-		 }
-			 
 	 }
 
 	 

@@ -11,7 +11,7 @@ import auton.RoughTerrain;
 
 public class AutonController
 {	
-	private int caseSelector = 1;
+	private int caseSelector = 5;
 	private double leftMotor, rightMotor;
 	private double tiltMotorArm, tiltMotorShoot;
 	
@@ -37,15 +37,15 @@ public class AutonController
 	public void update(MotorManager dr, SensorManager sensors)
 	{
 		if(caseSelector == 1)
-			chivalDeFrise.update(sensors);
+			chivalDeFrise.update(sensors, dr);
 		else if(caseSelector == 2)
-			drawbridge.update(sensors);
+			drawbridge.update(sensors, dr);
 		else if(caseSelector == 3)
-			moat.update(sensors);
+			moat.update(sensors, dr);
 		else if(caseSelector == 4)
-			ramparts.update(sensors);
+			ramparts.update(sensors, dr);
 		else if(caseSelector == 5)
-			roughTerrain.update(sensors);
+			roughTerrain.update(sensors, dr);
 	}
 	
 	public void forward(double speed)

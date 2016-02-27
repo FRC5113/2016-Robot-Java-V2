@@ -1,5 +1,6 @@
 package auton;
 
+import drive.MotorManager;
 import drive.SensorManager;
 
 public class Moat extends DefenseFrame
@@ -10,7 +11,7 @@ public class Moat extends DefenseFrame
 	private double speed2 = 1;
 	private double time;
 	
-	public void update(SensorManager sensors)
+	public void update(SensorManager sensors, MotorManager dr)
 	{
 		if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
 			caseSelector = 1;
@@ -18,7 +19,7 @@ public class Moat extends DefenseFrame
 		switch(caseSelector)
 		{
 		case 1:
-			controller.forward(speed1);
+			forward(speed1);
 			
 			if(sensors.getGyroZAngle() > 5)
 			{
@@ -29,7 +30,7 @@ public class Moat extends DefenseFrame
 			break;
 			
 		case 2:
-			controller.forward(speed2);
+			forward(speed2);
 			
 			if(sensors.getGyroZAngle() <= 5 && System.currentTimeMillis() - time >= 1500)
 				caseSelector = 3;
@@ -37,9 +38,14 @@ public class Moat extends DefenseFrame
 			break;
 			
 		case 3:
-			controller.stop();
+			stop();
 			System.out.println("Done!");
 			break;
 		}
+		
+		
+		dr.tankDrive(-leftMotor, -rightMotor);
+		dr.tiltArm(tiltMotorArm);
+		dr.tiltShoot(tiltMotorShoot);
 	}
 }

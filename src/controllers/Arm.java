@@ -43,7 +43,7 @@ public class Arm
 		if(Math.abs(tiltValueBase) < 0.05)
 			tiltValueBase = 0;
 	
-		dr.tiltArm(tiltValueBase);
+		dr.tiltArm(tiltValueBase / 3.5);
 	}
 	
 	public void tiltJoint(MotorManager dr, JoystickController monitor)
@@ -53,7 +53,7 @@ public class Arm
 		if(Math.abs(tiltValueJoint) < 0.05)
 			tiltValueJoint = 0;
 		
-		dr.tiltJoint(-tiltValueJoint);
+		dr.tiltJoint(-tiltValueJoint / 3.5);
 	}
 	
 	public void moveHook(MotorManager dr, JoystickController monitor)
