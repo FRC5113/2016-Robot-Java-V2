@@ -4,6 +4,7 @@ import drive.MotorManager;
 import drive.PID;
 import drive.SensorManager;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,6 +45,12 @@ public class Shooter
 	private double shooterMultiplier;
 	private double tiltMultiplier;
 	
+	private double desiredAngle;
+	
+	private Relay pusher2;
+
+
+	
 	//instantiate objects with obviously fake ports
 	//Done
 	public void init()
@@ -52,7 +59,7 @@ public class Shooter
 		minAngle = new DigitalInput(2);//fake
 		
 		pusher = new Servo(0);//real
-		pusher.setAngle(0);
+		pusher.setAngle(179);
 		
 		servoDir = 1;
 		
@@ -60,13 +67,18 @@ public class Shooter
     	debounce = -5000;
     	debounce2 = -2000;
     	
-    	//pid = new PID();
-    	//pid.init();
+    	pid = new PID();
+    	pid.init();
     	
     	driverSpinWheelsSpeed = .8;
     	shooterMultiplier = 1;
     	
     	distance = 15;
+    	desiredAngle = 0;
+    	
+    	pusher2 = new Relay(0);
+    	
+    	
     	
 	}
 	
@@ -82,7 +94,7 @@ public class Shooter
 		}
 		else
 		{
-			manualTilt(dr, monitor);
+			manualTilt(dr, monitor, sensors);
 			manualWheels(dr, monitor);
 		}
 		//Shooter Plan B just in case everything goes 
@@ -126,13 +138,18 @@ public class Shooter
 		  v
 		  o		  */
 		
+    	
+        //pusher2.set(Relay.Value.kOn);
+    	
 		switch(servoDir)
 		{
 			case 1:
 				
 				if(monitor.getServo() || monitor.getDriverServoShoot())//RIP rumble 2016
 				{
-					pusher.setAngle(180);
+					pusher.setAngle(0);
+					//pusher2.set(Relay.Value.kOn);
+					
 					servoDir = 2;
 					timer = System.currentTimeMillis();
 				}
@@ -140,9 +157,10 @@ public class Shooter
 				break;
 				
 			case 2:
-				if(pusher.getAngle() > 175.0 && System.currentTimeMillis() - timer > 750)
+				if(pusher.getAngle() < 5 && System.currentTimeMillis() - timer > 750)
 				{
-					pusher.setAngle(0);
+					pusher.setAngle(179);
+					//pusher2.set(Relay.Value.kOff);
 					servoDir = 1;
 				}
 				
@@ -209,27 +227,43 @@ public class Shooter
 	
 	//We assume that to tilt down we have a negative value and positive to tilt up
 	//We will also experimentally figure out what value to set the motor speed to, we will use .5 for now
-	public void manualTilt(MotorManager dr, JoystickController monitor)
+	public void manualTilt(MotorManager dr, JoystickController monitor, SensorManager sensors)
 	{
 		
 		if(monitor.getTiltDownShoot() > 0.05)
 		{
-			tiltValue = -monitor.getTiltDownShoot();
+			//SmartDashboard.putNumber("Tilt Down Shoot", monitor.getTiltDownShoot());
+			desiredAngle -= (monitor.getTiltDownShoot() * 1);
 		}
-		else if(monitor.getTiltUpShoot() > 0.05)
+		
+		
+		if(monitor.getTiltUpShoot() > 0.05)
 		{
-			tiltValue = monitor.getTiltUpShoot();
+			desiredAngle += (monitor.getTiltUpShoot() * 1);
 		}
-		else
-		{
-			tiltValue = 0;
-		}
+		
+		if(desiredAngle < 0)
+			desiredAngle = 0;
+		
+		if(desiredAngle > 75)
+			desiredAngle = 75;
+		
+		SmartDashboard.putNumber("Tilt Up Shoot", monitor.getTiltUpShoot());
+		
+		System.out.println("Desired Angle: " + desiredAngle);
+		
 		
 		if(minAngle.get())
 		{
 			if(tiltValue > 0 )
 				tiltValue = 0;
 		}
+		SmartDashboard.putBoolean("Min Angle", minAngle.get());
+		
+		tiltValue = pid.UsePIDAngle(sensors, desiredAngle);
+		SmartDashboard.putNumber("TiltValue", tiltValue);
+		System.out.println("Tilt Value: " + tiltValue);
+		
 		
 		dr.tiltShoot(tiltValue);
 	}

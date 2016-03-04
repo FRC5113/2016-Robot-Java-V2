@@ -124,7 +124,7 @@ public class MotorManager
 	public void moveHook(double speed)
 	{
 		captainHook.set(speed);
-		ticTocCroc.set(speed);
+		ticTocCroc.set(-speed);
 	}
 	
 	

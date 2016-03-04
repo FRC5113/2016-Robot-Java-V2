@@ -27,8 +27,10 @@ public class PID
     double SpeedCurrent;
     
     double deltaAngle;
-    double maxSpeed;
+    double maxDownSpeed;
+    double maxUpSpeed;
     double PIDKpAngle;
+    double PIDKdAngle;
 
     
     public void init()
@@ -52,9 +54,16 @@ public class PID
 	    PIDAngle = 0;
 	    PIDKi = PIDKp / 200;
 	    
-	    deltaAngle = 5;
-	    maxSpeed = .5;
-	    PIDKpAngle  = maxSpeed / deltaAngle;
+	    deltaAngle = 2;
+	    maxDownSpeed = .1;
+	    maxUpSpeed = .5;
+	    PIDKpAngle  = maxUpSpeed / deltaAngle;
+	    PIDKdAngle = PIDKpAngle / 2;
+	    
+	    //Step 1: Increase Derivitive term (Proportonal should be dominate, but try anything)
+	    //Step 2: set Derivitive to 0 and work with Integral
+	    //Step 3: Repeate 1 w/ 1
+	    //Step 4: try both
     }
     
 	public double UsePID(SensorManager sensors, double desiredSpeed)
@@ -104,6 +113,7 @@ public class PID
 	public double UsePIDAngle(SensorManager sensors, double desiredAngle)
 	{
 		Scurr = sensors.encoder.getEncoderAngle();
+		System.out.println("Current");
 		SmartDashboard.putNumber("Desired Angle", desiredAngle);
 		SmartDashboard.putNumber("Actual Angle", Scurr);
 		//System.out.println("encoder rate: " + Scurr);
@@ -111,12 +121,11 @@ public class PID
 		
 		if (Tcurr - PIDTime > 50)
 		{
-					
 		Ecurr = desiredAngle - PIDAngle;
 		dt = (double)(Tcurr - PIDTime) / 1000;
 		//PIDintegral = PIDintegral + (Ecurr * (dt));
-		//Derivative = ((Ecurr- PIDError) / dt);
-		output = (PIDKpAngle * Ecurr) + (PIDKi * PIDintegral) + (PIDKd * Derivative);
+		Derivative = ((Ecurr- PIDError));
+		output = (PIDKpAngle * Ecurr) + (PIDKi * PIDintegral) + (PIDKdAngle * Derivative);
 		//System.out.println("PIDKp: " + PIDKp);
 		//System.out.println("Ecurr" + Ecurr);
 		//System.out.println("output" + output);
@@ -139,13 +148,15 @@ public class PID
 		
 		//System.out.println("Output Total: " + PIDI);
 		
-		if(PIDI > maxSpeed)
-			PIDI = maxSpeed;
+		if(PIDI > maxDownSpeed)
+			PIDI = maxDownSpeed;
 		
-		if(PIDI < -maxSpeed)
-			PIDI = -maxSpeed;
+		if(PIDI < -maxUpSpeed)
+			PIDI = -maxUpSpeed;
 		
 		}
+		
+		System.out.println("PIDI: " + PIDI);
 		
 		return PIDI;
 	}

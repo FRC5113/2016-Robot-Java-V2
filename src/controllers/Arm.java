@@ -56,12 +56,14 @@ public class Arm
 		dr.tiltJoint(-tiltValueJoint / 3.5);
 	}
 	
+	
+	//We need to get full extension between 5 and 10 seconds
 	public void moveHook(MotorManager dr, JoystickController monitor)
 	{	
 		if(monitor.getHookDrop())
-			dr.moveHook(-0.9);
+			dr.moveHook(-0.7);
 		else if(monitor.getHookLift())
-			dr.moveHook(0.9);
+			dr.moveHook(0.7);
 		else
 			dr.moveHook(0);
 	}

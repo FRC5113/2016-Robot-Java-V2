@@ -93,7 +93,7 @@ public class JoystickController extends DriveController
 		activateAutoShoot = new JoystickButton(xboxController, xboxA);
 		rumble = new JoystickButton(xboxController, xboxRS);
 		hookLift = new JoystickButton(xboxController, xboxLB);
-		hookDrop = new JoystickButton (xboxController, xboxRB);
+		//hookDrop = new JoystickButton (xboxController, xboxRB);
 		emergencyStop = new JoystickButton(xboxController, xboxBACK);
 		emergencyStop2 = new JoystickButton(xboxController, xboxSTART);
 		
@@ -199,7 +199,8 @@ public class JoystickController extends DriveController
 	
 	public boolean getHookDrop()
 	{
-		return hookDrop.get();
+		return false;
+		//return hookDrop.get();
 	}
 	
 	public double getTiltArm()
