@@ -175,11 +175,11 @@ public class Shooter
 	{
 		if(monitor.getIntake())
 		{
-			dr.spinShooterWheels(-.8, .8);
+			dr.spinShooterWheels(-.99, .99);
 		}
 		else if(monitor.getShootLow())
 		{
-			dr.spinShooterWheels(.5,  -.5);
+			dr.spinShooterWheels(.7,  -.7);
 		}
 		else
 			dr.spinShooterWheels(0, 0);
@@ -248,19 +248,22 @@ public class Shooter
 		if(desiredAngle > 75)
 			desiredAngle = 75;
 		
-		SmartDashboard.putNumber("Tilt Up Shoot", monitor.getTiltUpShoot());
+		//SmartDashboard.putNumber("Tilt Up Shoot", monitor.getTiltUpShoot());
 		
 		System.out.println("Desired Angle: " + desiredAngle);
 		
+		
+		
+		SmartDashboard.putBoolean("Min Angle", minAngle.get());
+		
+		tiltValue = pid.UsePIDAngle(sensors, desiredAngle);
 		
 		if(minAngle.get())
 		{
 			if(tiltValue > 0 )
 				tiltValue = 0;
 		}
-		SmartDashboard.putBoolean("Min Angle", minAngle.get());
 		
-		tiltValue = pid.UsePIDAngle(sensors, desiredAngle);
 		SmartDashboard.putNumber("TiltValue", tiltValue);
 		System.out.println("Tilt Value: " + tiltValue);
 		

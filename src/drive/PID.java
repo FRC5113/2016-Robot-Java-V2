@@ -31,6 +31,7 @@ public class PID
     double maxUpSpeed;
     double PIDKpAngle;
     double PIDKdAngle;
+    double PIDKiAngle;
 
     
     public void init()
@@ -54,11 +55,12 @@ public class PID
 	    PIDAngle = 0;
 	    PIDKi = PIDKp / 200;
 	    
-	    deltaAngle = 2;
+	    deltaAngle = 5;
 	    maxDownSpeed = .1;
-	    maxUpSpeed = .5;
-	    PIDKpAngle  = maxUpSpeed / deltaAngle;
+	    maxUpSpeed = .16;
+	    PIDKpAngle  = maxDownSpeed / deltaAngle;
 	    PIDKdAngle = PIDKpAngle / 2;
+	    PIDKiAngle = PIDKpAngle / 2;
 	    
 	    //Step 1: Increase Derivitive term (Proportonal should be dominate, but try anything)
 	    //Step 2: set Derivitive to 0 and work with Integral
@@ -113,19 +115,31 @@ public class PID
 	public double UsePIDAngle(SensorManager sensors, double desiredAngle)
 	{
 		Scurr = sensors.encoder.getEncoderAngle();
-		System.out.println("Current");
+		
+		if(Math.abs(Scurr - desiredAngle) < 7)
+		{
+			maxDownSpeed = .1;
+		    maxUpSpeed = .16;
+		}
+		else
+		{
+			maxDownSpeed = .2;
+		    maxUpSpeed = .5;
+		}
+		
+		//System.out.println("Current");
 		SmartDashboard.putNumber("Desired Angle", desiredAngle);
 		SmartDashboard.putNumber("Actual Angle", Scurr);
 		//System.out.println("encoder rate: " + Scurr);
 		Tcurr= System.currentTimeMillis();
 		
-		if (Tcurr - PIDTime > 50)
+		if (Tcurr - PIDTime > 0)
 		{
 		Ecurr = desiredAngle - PIDAngle;
 		dt = (double)(Tcurr - PIDTime) / 1000;
-		//PIDintegral = PIDintegral + (Ecurr * (dt));
+		//PIDintegral = PIDintegral + (Ecurr);
 		Derivative = ((Ecurr- PIDError));
-		output = (PIDKpAngle * Ecurr) + (PIDKi * PIDintegral) + (PIDKdAngle * Derivative);
+		output = (PIDKpAngle * Ecurr) + (PIDKiAngle * PIDintegral) + (PIDKdAngle * Derivative);
 		//System.out.println("PIDKp: " + PIDKp);
 		//System.out.println("Ecurr" + Ecurr);
 		//System.out.println("output" + output);

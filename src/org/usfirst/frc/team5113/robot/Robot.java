@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team5113.robot;
 
+import com.ni.vision.NIVision;
+
 import controllers.Arm;
 import controllers.AutonController;
 import controllers.JoystickController;
@@ -9,6 +11,7 @@ import controllers.ShooterSubSystem;
 import drive.EncoderManager;
 import drive.MotorManager;
 import drive.SensorManager;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 //Auto-added, not sure if we actually need them... but whatever
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -40,7 +43,7 @@ public class Robot extends IterativeRobot
 	private ShooterSubSystem SSS;
 	private AutonController Auton;
 	
-
+	private CameraServer cam0;
 
 	
 	//ShooterSubSystem shooter = new ShooterSubSystem();
@@ -66,7 +69,16 @@ public class Robot extends IterativeRobot
         Auton = new AutonController();
         
         
+        
+        
         motorManagers.moveHook(0);
+        
+        
+        cam0 = CameraServer.getInstance();
+        cam0.setQuality(25);
+        cam0.setSize(100);
+        //the camera name (ex "cam0") can be found through the roborio web interface
+        cam0.startAutomaticCapture("cam0");
     }
     
 	/**
