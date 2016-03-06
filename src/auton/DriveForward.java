@@ -5,7 +5,7 @@ import drive.SensorManager;
 
 public class DriveForward extends DefenseFrame
 {
-	private int caseSelector = 1;
+	private int caseSelector = 0;
 	private double speed = 0.4;
 	private double time;
 	private boolean move = true;
@@ -14,11 +14,16 @@ public class DriveForward extends DefenseFrame
 	{
 		switch(caseSelector)
 		{
+		case 0:
+			time = System.currentTimeMillis();
+			caseSelector = 1;
+			
+			break;
+			
 		case 1:
 			forward(speed);
-			time = System.currentTimeMillis();
-			
-			if(System.currentTimeMillis() - time > 500)
+	
+			if(System.currentTimeMillis() - time > 1000)
 				caseSelector = 2;
 			
 			break;

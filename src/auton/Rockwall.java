@@ -3,7 +3,7 @@ package auton;
 import drive.MotorManager;
 import drive.SensorManager;
 
-public class RoughTerrain extends DefenseFrame
+public class Rockwall extends DefenseFrame
 {
 	private int caseSelector = 0;
 	private double speed = 0.5;
@@ -15,9 +15,7 @@ public class RoughTerrain extends DefenseFrame
 		switch(caseSelector)
 		{
 		case 0:
-			
 			sensors.resetGyroAngles();
-			
 			caseSelector = 1;
 		
 			break;
@@ -26,13 +24,13 @@ public class RoughTerrain extends DefenseFrame
 			forward(speed);
 			time = System.currentTimeMillis();
 			
-			if(sensors.getGyroZAngle() > 5)
+			if(sensors.getGyroZAngle() > 10)
 				caseSelector = 2;
 			
 			break;
 		
 		case 2:
-			if(sensors.getGyroZAngle() <= 5 && System.currentTimeMillis() - time > 500)
+			if(sensors.getGyroZAngle() < 10 && System.currentTimeMillis() - time > 2500)
 				caseSelector = 3;
 			
 			break;
@@ -51,5 +49,4 @@ public class RoughTerrain extends DefenseFrame
 		dr.tiltShoot(tiltMotorShoot);
 		
 	}
-
 }

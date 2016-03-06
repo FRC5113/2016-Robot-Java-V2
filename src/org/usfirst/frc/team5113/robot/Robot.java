@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot
 	
 	private CameraServer cam0;
 
+	private double debounce;
 	
 	//ShooterSubSystem shooter = new ShooterSubSystem();
 	
@@ -67,18 +68,22 @@ public class Robot extends IterativeRobot
         sensors.init();
         SSS = new ShooterSubSystem();
         Auton = new AutonController();
+        sensors.encoder.resetEncoder();
+    	Auton.init();
         
         
         
         
         motorManagers.moveHook(0);
         
-        
+        //this is the camera code
         cam0 = CameraServer.getInstance();
         cam0.setQuality(25);
         cam0.setSize(100);
         //the camera name (ex "cam0") can be found through the roborio web interface
         cam0.startAutomaticCapture("cam0");
+        
+    	debounce = -5000;
     }
     
 	/**
@@ -90,10 +95,19 @@ public class Robot extends IterativeRobot
 	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional strings.
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
+    
+    public void disabledPeriodic()
+    {
+    	if(controller.getServo() && System.currentTimeMillis() - debounce > 500) 
+        {
+    		debounce = System.currentTimeMillis();
+    		Auton.changeMode(controller.getServo());
+        }
+    }
+    
     public void autonomousInit() 
     {
-    	sensors.encoder.resetEncoder();
-    	Auton.init();
+    	
     }
 
     /**

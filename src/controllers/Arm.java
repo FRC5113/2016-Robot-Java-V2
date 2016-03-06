@@ -14,6 +14,7 @@ public class Arm
 	private double tiltValueBase;
 	private double tiltValueJoint;
 	private double hookMove;
+	private double temHookValue;
 	
 	public double testValueDouble;
 	
@@ -23,6 +24,8 @@ public class Arm
 		maxAngleBase = new DigitalInput(9);//fake
 		
 		testValueDouble = .1;
+		
+		temHookValue = 3;
 		
 	}
 
@@ -60,10 +63,13 @@ public class Arm
 	//We need to get full extension between 5 and 10 seconds
 	public void moveHook(MotorManager dr, JoystickController monitor)
 	{	
+		if(Math.abs(temHookValue) < .7 && (monitor.getHookDrop() || monitor.getHookLift()))
+			temHookValue += .01;
+		
 		if(monitor.getHookDrop())
-			dr.moveHook(-0.7);
+			dr.moveHook(-temHookValue);
 		else if(monitor.getHookLift())
-			dr.moveHook(0.7);
+			dr.moveHook(temHookValue);
 		else
 			dr.moveHook(0);
 	}

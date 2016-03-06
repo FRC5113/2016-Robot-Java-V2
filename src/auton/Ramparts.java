@@ -5,7 +5,7 @@ import drive.SensorManager;
 
 public class Ramparts extends DefenseFrame
 {
-	private int caseSelector;
+	private int caseSelector = 0;
 	private boolean selectorCheck = false;
 	private double speed1 = 0.7;
 	private double speed2 = 0.3;
@@ -13,11 +13,16 @@ public class Ramparts extends DefenseFrame
 	
 	public void update(SensorManager sensors, MotorManager dr)
 	{
-		if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
-			caseSelector = 1;
-		
 		switch(caseSelector)
 		{
+		case 0:
+			sensors.resetGyroAngles();
+			
+			if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
+				caseSelector = 1;
+		
+			break;
+			
 		case 1:
 			controller.forward(speed1);
 			

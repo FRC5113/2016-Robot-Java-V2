@@ -7,7 +7,7 @@ import drive.EncoderManager;
 																				// lol have fun with this
 public class Drawbridge extends DefenseFrame									// it's a boi 
 {																				// yeah das duh one
-	private int caseSelector;													//      |
+	private int caseSelector = 0;													//      |
 	private boolean selectorCheck = false;										//      |
 	private double speed1 = 0.5;//test numbers									// 		|
 	private double speed2 = 0.05;		//test numbers							//		V
@@ -27,11 +27,15 @@ public class Drawbridge extends DefenseFrame									// it's a boi
 	//This is not how you do it... We will have to fix this one...
 	public void update(SensorManager sensors, MotorManager dr)
 	{
-		if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
-			caseSelector = 1;
-		
 		switch(caseSelector)
 		{
+		case 0:
+			sensors.resetGyroAngles();
+			
+			if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
+				caseSelector = 1;
+		
+			break;
 
 		case 1: //Approach the defense          ______
 			controller.forward(speed1);    //   |     |
