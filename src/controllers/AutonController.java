@@ -5,7 +5,7 @@ import drive.SensorManager;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import auton.ChivalDeFrise;
 import auton.DefenseFrame;
-import auton.Drawbridge;
+//import auton.Drawbridge;
 import auton.DriveForward;
 import auton.Moat;
 import auton.Ramparts;
@@ -21,7 +21,7 @@ public class AutonController
 	
 	
 	Moat moat;
-	Drawbridge drawbridge;
+	//Drawbridge drawbridge;
 	Ramparts ramparts;
 	RoughTerrain roughTerrain;
 	ChivalDeFrise chivalDeFrise;
@@ -32,7 +32,7 @@ public class AutonController
 	public void init() 
 	{
 		moat = new Moat();
-		drawbridge = new Drawbridge();
+		//drawbridge = new Drawbridge();
 		ramparts = new Ramparts();
 		roughTerrain = new RoughTerrain();
 		chivalDeFrise = new ChivalDeFrise();
@@ -47,15 +47,15 @@ public class AutonController
 			forward.update(sensors, dr);
 		else if(caseSelector == 1)
 			chivalDeFrise.update(sensors, dr);
+		//else if(caseSelector == 2)
+			//drawbridge.update(sensors, dr);
 		else if(caseSelector == 2)
-			drawbridge.update(sensors, dr);
-		else if(caseSelector == 3)
 			moat.update(sensors, dr);
-		else if(caseSelector == 4)
+		else if(caseSelector == 3)
 			ramparts.update(sensors, dr);
-		else if(caseSelector == 5)
+		else if(caseSelector == 4)
 			roughTerrain.update(sensors, dr);
-		else if(caseSelector == 6)
+		else if(caseSelector == 5)
 			rockwall.update(sensors, dr);
 	}
 	

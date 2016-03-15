@@ -192,18 +192,13 @@ public class JoystickController extends DriveController
 		return hookLift.get(); 
 	}
 	
-	public boolean getRumble()
-	{
-		return rumble.get();
-	}
-	
 	public boolean getHookDrop()
 	{
 		return false;
 		//return hookDrop.get();
 	}
 	
-	public double getTiltArm()
+	public double getHook()
 	{
 		return xboxController.getRawAxis(1);
 	}

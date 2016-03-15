@@ -32,14 +32,14 @@ public class Arm
 	
 	public void update(MotorManager dr, JoystickController monitor) 
 	{
-		tiltBase(dr, monitor);
+		moveHook(dr, monitor);
 		tiltJoint(dr, monitor);
 		moveHook(dr, monitor);
 	}
 	
 	//moves both the base and the joint of the arm at the same rate?
 	//when the base is used the arm must be used as well
-	public void tiltBase(MotorManager dr, JoystickController monitor)
+	/*public void tiltBase(MotorManager dr, JoystickController monitor)
 	{
 		tiltValueBase = monitor.getTiltArm();
 		
@@ -47,7 +47,7 @@ public class Arm
 			tiltValueBase = 0;
 	
 		dr.tiltArm(tiltValueBase / 3.5);
-	}
+	}*/
 	
 	public void tiltJoint(MotorManager dr, JoystickController monitor)
 	{
@@ -72,6 +72,9 @@ public class Arm
 			dr.moveHook(temHookValue);
 		else
 			dr.moveHook(0);
+		
+		if(monitor.getHook() > 0.5 && monitor.getHook() < -0.5)
+			dr.moveHook(monitor.getHook() * 0.3);
 	}
 	
 	//Don't put this in until we get the actual robot
