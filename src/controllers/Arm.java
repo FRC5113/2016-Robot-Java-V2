@@ -34,7 +34,6 @@ public class Arm
 	{
 		moveHook(dr, monitor);
 		tiltJoint(dr, monitor);
-		moveHook(dr, monitor);
 	}
 	
 	//moves both the base and the joint of the arm at the same rate?

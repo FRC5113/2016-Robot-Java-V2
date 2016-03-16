@@ -35,6 +35,7 @@ public class JoystickController extends DriveController
 	private JoystickButton testAddBig;
 	private JoystickButton testSubSmall;
 	private JoystickButton testSubBig;
+	private JoystickButton getBallIn;
 	
 	//Shooter Plan B
 	private JoystickButton driverSpeedWheelsUp;
@@ -79,6 +80,7 @@ public class JoystickController extends DriveController
 		testAddBig = new JoystickButton(rightStick,8);
 		testSubSmall = new JoystickButton(rightStick,9);
 		testSubBig = new JoystickButton(rightStick,10);
+		getBallIn = new JoystickButton(leftStick, 2);
 		
 		//shooter plan B
 		 driverTiltUp = new JoystickButton(rightStick,3);
@@ -241,6 +243,11 @@ public class JoystickController extends DriveController
 	public boolean getAnyTestValue()
 	{
 		return (testAddBig.get() || testAddSmall.get() || testSubBig.get() || testSubSmall.get());
+	}
+	
+	public boolean getProximity()
+	{
+		return getBallIn.get();
 	}
 	
 	public double testValue(double originalValue, double incrementValue)
