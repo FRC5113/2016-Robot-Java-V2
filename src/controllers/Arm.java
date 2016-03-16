@@ -32,7 +32,8 @@ public class Arm
 	
 	public void update(MotorManager dr, JoystickController monitor) 
 	{
-		moveHook(dr, monitor);
+		//tiltBase(dr, monitor);
+		////moveHook(dr, monitor);
 		tiltJoint(dr, monitor);
 	}
 	
@@ -72,8 +73,8 @@ public class Arm
 		else
 			dr.moveHook(0);
 		
-		if(monitor.getHook() > 0.5 && monitor.getHook() < -0.5)
-			dr.moveHook(monitor.getHook() * 0.3);
+		//if(monitor.getHook() > 0.5 && monitor.getHook() < -0.5)
+			//dr.moveHook(monitor.getHook() * 0.3);
 	}
 	
 	//Don't put this in until we get the actual robot

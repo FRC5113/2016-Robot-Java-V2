@@ -31,7 +31,7 @@ public class SensorManager
 	
 	private AnalogInput stringPot;
 	private AnalogInput sonicRange;//SonicRAGE <---- If I ever somehow get partnered with Twitch, I am so making that a sub-emote.
-	private AnalogInput proximity;
+	////private AnalogInput proximity;
 
 	public void init()
 	{
@@ -61,7 +61,7 @@ public class SensorManager
 		stringPot = new AnalogInput(3);
 
 		sonicRange = new AnalogInput(200);//sonicRage
-		proximity = new AnalogInput(2);
+		////proximity = new AnalogInput(2);
 		encoder = new EncoderManager(0,1,7,343,360,1);
 
 	}
@@ -70,7 +70,7 @@ public class SensorManager
 	{
 		//gyroXY.updateTable();
 		gyroZ.updateTable();
-		SmartDashboard.putBoolean("Ball In", getBallIn());
+		//SmartDashboard.putBoolean("Ball In", getBallIn());
 	}
 	
 	public double getGyroVoltage(AnalogGyro gyro)
@@ -122,7 +122,7 @@ public class SensorManager
 		 return 0;
 	 }
 	 
-	 public boolean getBallIn()
+	 /*public boolean getBallIn()
 	 {
 		 double range = proximity.getValue();
 		 
@@ -130,7 +130,7 @@ public class SensorManager
 			 return false;
 		 else
 			 return true;
-	 }
+	 }*/
 
 }
 		
