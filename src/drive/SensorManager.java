@@ -58,8 +58,8 @@ public class SensorManager
 
 
 		stringPot = new AnalogInput(3);
-		sonicRange = new AnalogInput(200);//sonicRage
-		proximity = new AnalogInput(2);
+		sonicRange = new AnalogInput(2);//sonicRage
+		proximity = new AnalogInput(0);
 		encoder = new EncoderManager(0,1,7,343,360,1);
 	}
 
