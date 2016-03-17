@@ -144,8 +144,9 @@ public class Robot extends IterativeRobot
 		//System.out.println("Encoder Rate of Rotation: " + sensors.getEncoderRate());
 		//System.out.println("Encoder Distance: " + sensors.getEncoderDistance());
 		//System.out.println("Degrees per Second: " + sensors.getEncoderAngularSpeed());
-        System.out.println("GyroZ Angle: " + sensors.getGyroZAngle());
-		
+        //System.out.println("GyroZ Angle: " + sensors.getGyroZAngle());
+		System.out.println("The ball is in: " + sensors.getBallIn());
+		System.out.println("Range from ball: " + sensors.getProximityRange());
 		//System.out.println("StringPot: " + sensors.getStringPot());
 		//System.out.println("Ultrasonic Range Finder (Inches): " + sensors.getSonicRangeInches());
 		//System.out.println("Servo: " + shoot.pusher.getAngle());

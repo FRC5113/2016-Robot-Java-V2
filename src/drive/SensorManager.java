@@ -30,7 +30,7 @@ public class SensorManager
 	
 	private AnalogInput stringPot;
 	private AnalogInput sonicRange;//SonicRAGE <---- If I ever somehow get partnered with Twitch, I am so making that a sub-emote.
-
+	private AnalogInput proximity;
 
 	public void init()
 	{
@@ -58,11 +58,9 @@ public class SensorManager
 
 
 		stringPot = new AnalogInput(3);
-
-		sonicRange = new AnalogInput(2);//sonicRage
-		
+		sonicRange = new AnalogInput(200);//sonicRage
+		proximity = new AnalogInput(2);
 		encoder = new EncoderManager(0,1,7,343,360,1);
-
 	}
 
 	public void update()
@@ -107,7 +105,19 @@ public class SensorManager
 		   //gyroXY.reset();
 		   gyroZ.reset();
 	 }
-
+	 
+	 public double getProximityRange()
+	 {
+		 return proximity.getValue();
+	 }
+	 
+	 public boolean getBallIn();
+	 {
+		 if(getProximityRange > 5)
+			 return false;
+		 else
+			 return true;
+	 }
 	 
 	 public double getMedianRangefinder()
 	 {
