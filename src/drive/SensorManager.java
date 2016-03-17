@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -31,7 +30,7 @@ public class SensorManager
 	
 	private AnalogInput stringPot;
 	private AnalogInput sonicRange;//SonicRAGE <---- If I ever somehow get partnered with Twitch, I am so making that a sub-emote.
-	////private AnalogInput proximity;
+
 
 	public void init()
 	{
@@ -60,8 +59,8 @@ public class SensorManager
 
 		stringPot = new AnalogInput(3);
 
-		sonicRange = new AnalogInput(200);//sonicRage
-		////proximity = new AnalogInput(2);
+		sonicRange = new AnalogInput(2);//sonicRage
+		
 		encoder = new EncoderManager(0,1,7,343,360,1);
 
 	}
@@ -70,7 +69,6 @@ public class SensorManager
 	{
 		//gyroXY.updateTable();
 		gyroZ.updateTable();
-		//SmartDashboard.putBoolean("Ball In", getBallIn());
 	}
 	
 	public double getGyroVoltage(AnalogGyro gyro)
@@ -121,16 +119,6 @@ public class SensorManager
 		 
 		 return 0;
 	 }
-	 
-	 /*public boolean getBallIn()
-	 {
-		 double range = proximity.getValue();
-		 
-		 if(range > 5)
-			 return false;
-		 else
-			 return true;
-	 }*/
 
 }
 		

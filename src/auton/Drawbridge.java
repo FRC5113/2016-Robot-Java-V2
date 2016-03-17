@@ -1,5 +1,4 @@
-/*
-package auton;
+/*package auton;
 
 import controllers.JoystickController;
 import drive.MotorManager;

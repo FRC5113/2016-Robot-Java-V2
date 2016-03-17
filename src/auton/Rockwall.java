@@ -30,7 +30,7 @@ public class Rockwall extends DefenseFrame
 			break;
 		
 		case 2:
-			if(sensors.getGyroZAngle() < 10 && System.currentTimeMillis() - time > 2500)
+			if(sensors.getGyroZAngle() < 10 && System.currentTimeMillis() - time > 1500)
 				caseSelector = 3;
 			
 			break;

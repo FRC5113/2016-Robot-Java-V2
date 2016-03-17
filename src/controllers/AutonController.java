@@ -49,13 +49,13 @@ public class AutonController
 			chivalDeFrise.update(sensors, dr);
 		//else if(caseSelector == 2)
 			//drawbridge.update(sensors, dr);
-		else if(caseSelector == 2)
-			moat.update(sensors, dr);
 		else if(caseSelector == 3)
-			ramparts.update(sensors, dr);
+			moat.update(sensors, dr);
 		else if(caseSelector == 4)
-			roughTerrain.update(sensors, dr);
+			ramparts.update(sensors, dr);
 		else if(caseSelector == 5)
+			roughTerrain.update(sensors, dr);
+		else if(caseSelector == 6)
 			rockwall.update(sensors, dr);
 	}
 	
@@ -111,5 +111,7 @@ public class AutonController
 		SmartDashboard.putString("Auto Mode", autoName);
 		
 	}
+	
+	
 	
 }

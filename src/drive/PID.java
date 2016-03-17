@@ -56,7 +56,7 @@ public class PID
 	    PIDKi = PIDKp / 200;
 	    
 	    deltaAngle = 5;
-	    maxDownSpeed = .1;
+	    maxDownSpeed = .25;
 	    maxUpSpeed = .16;
 	    PIDKpAngle  = maxDownSpeed / deltaAngle;
 	    PIDKdAngle = PIDKpAngle / 2;
