@@ -111,9 +111,9 @@ public class SensorManager
 		 return proximity.getValue();
 	 }
 	 
-	 public boolean getBallIn();
+	 public boolean getBallIn()
 	 {
-		 if(getProximityRange > 5)
+		 if(getProximityRange() > 5)
 			 return false;
 		 else
 			 return true;
