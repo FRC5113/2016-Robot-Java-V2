@@ -69,7 +69,7 @@ public class MotorManager
 		
 		captainHook = new CANTalon(14);//What is a pirate's favorite letter?
 		captainHook.set(0);			  //"It's p because without it he'd be irate" 
-																//-Wang 2016
+																//Wang 2016
 		
 		ticTocCroc = new CANTalon(3);//He's coming for Hook...
 		ticTocCroc.set(0);

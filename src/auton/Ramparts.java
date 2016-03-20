@@ -1,5 +1,6 @@
 package auton;
 
+
 import drive.MotorManager;
 import drive.SensorManager;
 
@@ -10,16 +11,15 @@ public class Ramparts extends DefenseFrame
 	private double speed1 = 0.7;
 	private double speed2 = 0.3;
 	private double time;
+	private double previousAngle;
 	
 	public void update(SensorManager sensors, MotorManager dr)
-	{
+	{		
 		switch(caseSelector)
 		{
 		case 0:
 			sensors.resetGyroAngles();
-			
-			if(sensors.getGyroZAngle() <= 5 && !selectorCheck)
-				caseSelector = 1;
+			caseSelector = 1;
 		
 			break;
 			
@@ -30,14 +30,15 @@ public class Ramparts extends DefenseFrame
 			{
 				caseSelector = 2;
 				time = System.currentTimeMillis();
+				previousAngle = sensors.getGyroZAngle();
 			}
 			
 			break;
 			
 		case 2:
-			controller.forward(speed2);
+			//controller.forward(speed2);
 			
-			if(sensors.getGyroZAngle() <= 5 && System.currentTimeMillis() - time >= 1500)
+			if(sensors.getGyroZAngle() <= previousAngle && System.currentTimeMillis() - time >= 1250)
 				caseSelector = 3;
 			
 			break;
@@ -47,6 +48,10 @@ public class Ramparts extends DefenseFrame
 			System.out.println("Done!");
 			break;
 		}
+		
+		dr.tankDrive(-leftMotor, -rightMotor);
+		dr.tiltArm(tiltMotorArm);
+		dr.tiltShoot(tiltMotorShoot);
 	}
 
 }

@@ -123,7 +123,7 @@ public class PID
 		}
 		else
 		{
-			maxDownSpeed = .2;
+			maxDownSpeed = .3;
 		    maxUpSpeed = .5;
 		}
 		

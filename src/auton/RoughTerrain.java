@@ -9,6 +9,7 @@ public class RoughTerrain extends DefenseFrame
 	private double speed = 0.5;
 	private double time;
 	private boolean move = true;
+	private double previousAngle;
 	
 	public void update(SensorManager sensors, MotorManager dr)
 	{
@@ -27,12 +28,15 @@ public class RoughTerrain extends DefenseFrame
 			time = System.currentTimeMillis();
 			
 			if(sensors.getGyroZAngle() > 5)
+			{
 				caseSelector = 2;
+				previousAngle = sensors.getGyroZAngle();
+			}
 			
 			break;
 		
 		case 2:
-			if(sensors.getGyroZAngle() <= 5 && System.currentTimeMillis() - time > 500)
+			if(sensors.getGyroZAngle() <= previousAngle && System.currentTimeMillis() - time > 500)
 				caseSelector = 3;
 			
 			break;

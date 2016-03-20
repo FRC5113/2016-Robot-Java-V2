@@ -6,9 +6,10 @@ import drive.SensorManager;
 public class Rockwall extends DefenseFrame
 {
 	private int caseSelector = 0;
-	private double speed = 0.5;
+	private double speed = 0.6;
 	private double time;
 	private boolean move = true;
+	private double previousAngle;
 	
 	public void update(SensorManager sensors, MotorManager dr)
 	{
@@ -25,12 +26,15 @@ public class Rockwall extends DefenseFrame
 			time = System.currentTimeMillis();
 			
 			if(sensors.getGyroZAngle() > 10)
+			{
 				caseSelector = 2;
+				previousAngle = sensors.getGyroZAngle();
+			}
 			
 			break;
 		
 		case 2:
-			if(sensors.getGyroZAngle() < 10 && System.currentTimeMillis() - time > 1500)
+			if(sensors.getGyroZAngle() < previousAngle && System.currentTimeMillis() - time > 1500)
 				caseSelector = 3;
 			
 			break;

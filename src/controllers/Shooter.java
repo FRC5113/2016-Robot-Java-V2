@@ -13,7 +13,6 @@ public class Shooter
 	//Not sure if "DigitalInput" is the correct object
 	//it is -Reed
 	private DigitalInput maxAngle;
-	private DigitalInput minAngle;
 	
 	public Servo pusher;//rebel
 	
@@ -56,7 +55,6 @@ public class Shooter
 	public void init()
 	{
 		//maxAngle = new DigitalInput(2);//fake
-		minAngle = new DigitalInput(2);//fake
 		
 		pusher = new Servo(0);//real
 		pusher.setAngle(179);
@@ -203,7 +201,7 @@ public class Shooter
 		//System.out.println("Tilt Speed: " + tiltSpeed);
 		SmartDashboard.putNumber("Tilt Speed", tiltSpeed);
 		
-		if(minAngle.get())
+		if(sensors.getLowerLimit())
 		{
 			if(tiltSpeed > 0 )
 				tiltSpeed = 0;
@@ -248,17 +246,18 @@ public class Shooter
 		if(desiredAngle > 75)
 			desiredAngle = 75;
 		
+		
 		//SmartDashboard.putNumber("Tilt Up Shoot", monitor.getTiltUpShoot());
 		
 		System.out.println("Desired Angle: " + desiredAngle);
 		
 		
 		
-		SmartDashboard.putBoolean("Min Angle", minAngle.get());
+		SmartDashboard.putBoolean("Min Angle", sensors.getLowerLimit());
 		
 		tiltValue = pid.UsePIDAngle(sensors, desiredAngle);
 		
-		if(minAngle.get())
+		if(sensors.getLowerLimit())
 		{
 			if(tiltValue > 0 )
 				tiltValue = 0;

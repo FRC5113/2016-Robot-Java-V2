@@ -82,6 +82,8 @@ public class AutonController
 	{
 		tiltMotorArm = speed;
 	}
+	
+	
 
 	public void changeMode(boolean switchMode)
 	{

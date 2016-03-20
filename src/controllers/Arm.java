@@ -35,6 +35,9 @@ public class Arm
 		//tiltBase(dr, monitor);
 		tiltJoint(dr, monitor);
 		moveHook(dr, monitor);
+		
+		//System.out.println("Hook Axis: " + monitor.getHook());
+		//System.out.println("Arm Axis: " + monitor.getTiltJoint());
 	}
 	
 	//moves both the base and the joint of the arm at the same rate?
@@ -53,30 +56,33 @@ public class Arm
 	{
 		tiltValueJoint = monitor.getTiltJoint();
 		
-		if(Math.abs(tiltValueJoint) < 0.05)
+		if(Math.abs(tiltValueJoint) < 0.3)
 			tiltValueJoint = 0;
 		
-		dr.tiltJoint(-tiltValueJoint / 3.5);
+		dr.tiltJoint(-tiltValueJoint / 2.5);
+		
+		//System.out.println("ARM JOINT VALUE: " + tiltValueJoint);
 	}
 	
 	
 	//We need to get full extension between 5 and 10 seconds
 	public void moveHook(MotorManager dr, JoystickController monitor)
 	{	
-		if(Math.abs(temHookValue) < .7 && (monitor.getHookDrop() || monitor.getHookLift()))
-			temHookValue += .01;
+		//if(Math.abs(temHookValue) < .7 && (monitor.getHookDrop() || monitor.getHookLift()))
+			//temHookValue += .01;
 		
-		if(monitor.getHookDrop())
-			dr.moveHook(-temHookValue);
-		else if(monitor.getHookLift())
-			dr.moveHook(temHookValue);
+		if(monitor.getHookLift())
+			dr.moveHook(0.99);
+		else if(monitor.getHook() > 0.05 || monitor.getHook() < -0.05)
+			dr.moveHook(Math.abs(monitor.getHook()));
 		else
 			dr.moveHook(0);
 		
-		if(monitor.getHook() > 0.05 || monitor.getHook() < -0.05)
-			dr.moveHook(monitor.getHook());
-		else
-			dr.moveHook(0);
+		
+		//if(monitor.getHook() > 0.05 || monitor.getHook() < -0.05)
+		//	dr.moveHook(Math.abs(monitor.getHook()));
+		//else
+		//	dr.moveHook(0);
 	}
 	
 	//Don't put this in until we get the actual robot

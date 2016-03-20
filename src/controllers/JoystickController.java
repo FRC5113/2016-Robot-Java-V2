@@ -205,12 +205,12 @@ public class JoystickController extends DriveController
 	
 	public double getHook()
 	{
-		return xboxController.getRawAxis(1);
+		return xboxController.getRawAxis(5);
 	}
 
 	public double getTiltJoint()
 	{
-		return xboxController.getRawAxis(5);
+		return xboxController.getRawAxis(1);
 	}
 	
 	public boolean getDriverShoot()

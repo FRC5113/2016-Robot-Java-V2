@@ -13,6 +13,7 @@ public class DefenseFrame
 	
 	public double leftMotor = 0, rightMotor = 0;
 	public double tiltMotorArm = 0, tiltMotorShoot = 0;
+	private double shooterSpeed = 0;
 
 	public void forward(double speed)
 	{
@@ -34,5 +35,10 @@ public class DefenseFrame
 	public void armswing(double speed)
 	{
 		tiltMotorArm = speed;
+	}
+	
+	public void moveShooter(double speed)
+	{
+		shooterSpeed = speed;
 	}
 }

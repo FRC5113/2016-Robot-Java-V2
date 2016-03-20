@@ -34,7 +34,6 @@ public class DriveForward extends DefenseFrame
 			System.out.println("Done!");
 			
 			break;
-				
 		}
 		
 		dr.tankDrive(-leftMotor, -rightMotor);

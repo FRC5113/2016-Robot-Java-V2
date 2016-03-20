@@ -4,6 +4,7 @@ import controllers.JoystickController;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -31,6 +32,8 @@ public class SensorManager
 	private AnalogInput stringPot;
 	private AnalogInput sonicRange;//SonicRAGE <---- If I ever somehow get partnered with Twitch, I am so making that a sub-emote.
 	private AnalogInput proximity;
+	
+	private DigitalInput minAngle;
 
 	public void init()
 	{
@@ -61,6 +64,8 @@ public class SensorManager
 		sonicRange = new AnalogInput(2);//sonicRage
 		proximity = new AnalogInput(0);
 		encoder = new EncoderManager(0,1,7,343,360,1);
+		
+		minAngle = new DigitalInput(2);//real
 	}
 
 	public void update()
@@ -130,6 +135,11 @@ public class SensorManager
 		 return 0;
 	 }
 
+	 public boolean getLowerLimit()
+	 {
+		 return minAngle.get();
+	 }
+	 
 }
 		
 
