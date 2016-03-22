@@ -8,7 +8,7 @@ public class Ramparts extends DefenseFrame
 {
 	private int caseSelector = 0;
 	private boolean selectorCheck = false;
-	private double speed1 = 0.7;
+	private double speed1 = 0.6;
 	private double speed2 = 0.3;
 	private double time;
 	private double previousAngle;
@@ -38,7 +38,7 @@ public class Ramparts extends DefenseFrame
 		case 2:
 			//controller.forward(speed2);
 			
-			if(sensors.getGyroZAngle() <= previousAngle && System.currentTimeMillis() - time >= 1250)
+			if(sensors.getGyroZAngle() <= previousAngle && System.currentTimeMillis() - time >= 1500)
 				caseSelector = 3;
 			
 			break;

@@ -53,6 +53,11 @@ public class EncoderManager
 	{
 		return encoder.get();
 	}
+	
+	public void setZero()
+	{
+		encoder.reset();
+	}
 
 	public double getEncoderRate()
 	{

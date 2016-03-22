@@ -240,12 +240,17 @@ public class Shooter
 			desiredAngle += (monitor.getTiltUpShoot() * 1);
 		}
 		
-		if(desiredAngle < 0)
+		if(desiredAngle < 0 && !monitor.getDriverTiltUp())
 			desiredAngle = 0;
 		
-		if(desiredAngle > 75)
-			desiredAngle = 75;
+		if(monitor.getDriverTiltDown())
+		{
+			sensors.resetEncoder();
+			desiredAngle = 0;
+		}
 		
+		if(desiredAngle > 65)
+			desiredAngle = 65;
 		
 		//SmartDashboard.putNumber("Tilt Up Shoot", monitor.getTiltUpShoot());
 		

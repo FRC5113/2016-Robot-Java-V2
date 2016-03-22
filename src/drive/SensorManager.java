@@ -140,6 +140,11 @@ public class SensorManager
 		 return minAngle.get();
 	 }
 	 
+	 public void resetEncoder()
+	 {
+		 encoder.setZero();
+	 }
+	 
 }
 		
 
