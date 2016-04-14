@@ -22,7 +22,7 @@ public class JoystickController extends DriveController
 	
 	private JoystickButton rumble;
 	private JoystickButton hookLift;
-	private JoystickButton hookDrop;
+	private JoystickButton disableMaxAngle;
 	private JoystickButton tiltArm;
 	//private JoystickButton tiltDownArm;
 	private JoystickButton tiltJoint;
@@ -93,7 +93,7 @@ public class JoystickController extends DriveController
 		activateAutoShoot = new JoystickButton(xboxController, xboxA);
 		rumble = new JoystickButton(xboxController, xboxRS);
 		hookLift = new JoystickButton(xboxController, xboxLB);
-		//hookDrop = new JoystickButton (xboxController, xboxRB);
+		disableMaxAngle = new JoystickButton (xboxController, xboxRB);
 		emergencyStop = new JoystickButton(xboxController, xboxBACK);
 		emergencyStop2 = new JoystickButton(xboxController, xboxSTART);
 		
@@ -119,8 +119,8 @@ public class JoystickController extends DriveController
 	
 	public void update(MotorManager dr) 
 	{
-		double leftYAxis = leftStick.getY();
-		double rightYAxis = rightStick.getY();
+		double leftYAxis = leftStick.getY() / 2;
+		double rightYAxis = rightStick.getY() / 2;
 		
 		if(Math.abs(leftYAxis) < 0.05)
 			leftYAxis = 0;
@@ -262,6 +262,11 @@ public class JoystickController extends DriveController
 				newValue -= (incrementValue * 10);
 		
 		return newValue;
+	}
+	
+	public boolean getDisableMaxAngle()
+	{
+		return disableMaxAngle.get();
 	}
 	
 	public boolean getEStop()

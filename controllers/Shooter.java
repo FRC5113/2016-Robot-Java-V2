@@ -240,7 +240,7 @@ public class Shooter
 			desiredAngle += (monitor.getTiltUpShoot() * 1);
 		}
 		
-		if(desiredAngle < 0 && !monitor.getDriverTiltUp())
+		if(desiredAngle < 0 && !monitor.getDriverTiltUp() && !monitor.getDisableMaxAngle()) //SELF NOTE RIGHT HERE
 			desiredAngle = 0;
 		
 		if(monitor.getDriverTiltDown())
